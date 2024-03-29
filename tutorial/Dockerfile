@@ -4,7 +4,9 @@ WORKDIR /app/
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
-ENV PYTHONPATH=/app
+# Setting the PYTHONPATH is mandatory
+ENV PYTHONPATH=/app 
+
 COPY . .
 WORKDIR /app
 ENTRYPOINT ["python", "deploy.py"]

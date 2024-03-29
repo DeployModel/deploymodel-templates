@@ -1,11 +1,11 @@
-from deploymodel.io import Form, Field, ModelInput, ModelOutput
+from deploymodel.io import Field, ModelInput, ModelOutput
 from deploymodel import register
 
 from model import CarCatModel
 
 
 class CarCatInput(ModelInput):
-    noise: str = Form(
+    noise: str = Field(
         ...,
         title="Noise",
         description="Noise to be classified as either car or cat",
@@ -30,8 +30,9 @@ def init() -> CarCatModel:
 
 
 def handler(model: CarCatModel, input: CarCatInput) -> CarCatOutput:
-    return model(input.noise)
-
+    output = model(input.noise)
+    return CarCatOutput(label=output["label"], confidence=output["confidence"])
+    
 
 if __name__ == "__main__":
     register({"handler": handler, "init": init})

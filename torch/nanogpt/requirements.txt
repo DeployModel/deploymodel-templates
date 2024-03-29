@@ -1,0 +1,3 @@
+deploymodel==0.1.6
+tiktoken==0.6.0
+torch==2.2.2
