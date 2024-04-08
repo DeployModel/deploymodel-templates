@@ -1,1 +1,1 @@
-deploymodel==0.1.30
+deploymodel==0.1.32
