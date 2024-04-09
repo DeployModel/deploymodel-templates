@@ -87,13 +87,12 @@ class GPTDeployModel:
 
 
 def init() -> GPTDeployModel:
-    device = "cpu"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     dtype = (
         "bfloat16"
         if torch.cuda.is_available() and torch.cuda.is_bf16_supported()
         else "float16"
     )  # 'float32' or 'bfloat16' or 'float16'
-    compile = False  # use PyTorch 2.0 to compile the model to be faster
     torch.backends.cuda.matmul.allow_tf32 = True  # allow tf32 on matmul
     torch.backends.cudnn.allow_tf32 = True  # allow tf32 on cudnn
     ptdtype = {
@@ -106,8 +105,6 @@ def init() -> GPTDeployModel:
 
     model.eval()
     model.to(device)
-    if compile:
-        model = torch.compile(model)  # requires PyTorch 2.0 (optional)
 
     enc = tiktoken.get_encoding("gpt2")
 
